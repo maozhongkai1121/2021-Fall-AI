@@ -1,55 +1,39 @@
-# PENS - ACL2021
-## {PENS}: A Dataset and Generic Framework for Personalized News Headline Generation
-This is a Pytorch implementation of [PENS](https://www.microsoft.com/en-us/research/uploads/prod/2021/06/ACL2021_PENS_Camera_Ready_1862_Paper.pdf). 
+# News Headline Generation
 
-## I. Guidance
+a brief introduction to the project
 
-### 0. Enviroment
-- Install pytorch version >= '1.4.0'
-- Install the pensmodule package under ''PENS-Personalized-News-Headline-Generation'' using code ``` pip install -e . ```
+## Group Member
 
-### 1. Data Prepare
-- Download the PENS dataset [here](https://msnews.github.io/pens.html) and put the dataset under data/.
-- (optional) Download glove.840B.300d.txt under data/ if you choose to use pretrained glove word embeddings.
+毛钟楷 2019K8009909012
 
-### 2. Running Code
-- ```cd pensmodule ```
-- Follow the order: Preprocess --> UserEncoder --> Generator and run the pipeline**.ipynb notebook to preprocess, train the user encoder and the train generator, individually.
+## Source Code
 
+[PENS - ACL2021](https://github.com/LLluoling/PENS-Personalized-News-Headline-Generation)
 
-More infor please refer to the homepage of the [introduction of PENS dataset](https://msnews.github.io/pens.html).
+## Dataset
 
-## II. Training Tips
+[PENS](https://msnews.github.io/pens.html)  
+[Glove](https://apache-mxnet.s3.cn-north-1.amazonaws.com.cn/gluon/embeddings/glove/glove.840B.300d.zip)
 
-Here we take NRMS as user encoder, the followings are some experiment detailes that are not illustrated in the paper.
+## Runtime
 
-### 0. TIPS
-- In this paper, we used mento carlo search for RL training, which is very slow in training and sometimes hard to converge. Thus we provide ac training in this provided code.
-- If you pretrain the generator for a couple of epoches, you should set a very small learning rate during RL training.
-- <span style="color:blue">**Large improvements can be made compared with the baselines that we provided, the importance always lies in the design of reward functions.**</span>
+Windows 10 20H2  
+Python 3.9.9  
+PyTorch 1.10.1  
+CUDA 11.3.0  
+VS Code 1.63.2
 
+## Hardware
 
-### 1. Training Reward
-![image info](./docs/reward.png)
+Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz  
+NVIDIA GeForce GTX 1660 Ti 6GB
 
-### 2. Test performance on different training steps
-![image info](./docs/rouge1.png)
-![image info](./docs/rouge2.png)
-![image info](./docs/rougel.png)
+## Files
 
+***model.pkl*** : saved model
 
-### 3. Cases
-| epoch | generated headline | 
-| :-----| ----: |
-| Case 1 |  | 
-| 1000 | top stockton news arrests 2 impaired drivers | 
-| 5000 | top stockton news arrests 2 impaired drivers who had unrestrained children in their cars | 
-| Case 2 |  | 
-| 1000 | trump says tens of thousands of people couldn t get in 2020 rally | 
-| 5000 | trump says tens of thousands of people outside his 2020 campaign rally at orlando | 
+## GitHub
 
-**Noted:**
-- With the training process goes, the generated sentences are more fluent and contains more rich information.
-- <span style="color:blue"> **Rouge scores is not the best evaluation scores, but a compromising choice. Of course the best evaluation is to check out the real clicks of users to see if they are more interested. Thus sometimes a more fluent and human-like generated sentence gets lower rouge scores.**</span>
-
-
+[maozhongkai1121](https://github.com/maozhongkai1121/2021-Fall-AI)  
+~~Data and other files are waiting to be fully uploaded~~  
+These datasets (data/, data2/, runs) are too large for GitHub and I will try to upload them to some cloud storage.
