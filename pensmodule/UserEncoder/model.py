@@ -16,7 +16,7 @@ class NAML(nn.Module):
         self.embed.weight = nn.Parameter(torch.from_numpy(embedding_matrix).type(torch.FloatTensor), requires_grad=True)
         self.vert_embed = nn.Embedding(len(category_dict)+1, 400, padding_idx=0)
 
-        
+
         self.attn_title = MultiHeadAttention(300, 20, 20, 20)
         self.attn_body = MultiHeadAttention(300, 20, 20, 20)
         # self.attn_news = MultiHeadAttention(400, 20, 20, 20)
@@ -30,7 +30,7 @@ class NAML(nn.Module):
         self.drop_layer = nn.Dropout(p=0.2)
         self.fc = nn.Linear(400, 64)
         self.criterion = nn.CrossEntropyLoss()
-        
+
     def news_encoder(self, news_feature):
         title, vert, body = news_feature[0], news_feature[1],news_feature[2]
         news_len = title.shape[-1]
@@ -53,7 +53,7 @@ class NAML(nn.Module):
         news_vec = self.fc(news_vec)
         return news_vec
 
-        
+
     def user_encoder(self, x):
 
         x = self.attn_pool_news(x).reshape(-1, 64)
@@ -63,7 +63,7 @@ class NAML(nn.Module):
 
         bz = label.size(0)
         news_vecs = self.news_encoder(news_feature).reshape(bz, -1, 64)
-        
+
         user_newsvecs = self.news_encoder(user_feature).reshape(bz, -1, 64)
         user_vec = self.user_encoder(user_newsvecs).unsqueeze(-1) # batch * 400 * 1
         score = torch.bmm(news_vecs, user_vec).squeeze(-1)
@@ -81,8 +81,8 @@ class NRMS(nn.Module):
         vocab_size, embedding_dim = embedding_matrix.shape
         self.embed = nn.Embedding(vocab_size, embedding_dim, padding_idx=0)
         self.embed.weight = nn.Parameter(torch.from_numpy(embedding_matrix).type(torch.FloatTensor), requires_grad=True)
-        
-        
+
+
         self.attn_word = MultiHeadAttention(300, 20, 20, 20)
         # self.attn_news = MultiHeadAttention(400, 20, 20, 20)
 
@@ -92,7 +92,7 @@ class NRMS(nn.Module):
         self.drop_layer = nn.Dropout(p=0.2)
         self.fc = nn.Linear(400, 64)
         self.criterion = nn.CrossEntropyLoss()
-        
+
     def news_encoder(self, news_feature):
         x = news_feature[0]
         news_len = x.shape[-1]
@@ -103,7 +103,7 @@ class NRMS(nn.Module):
         x = self.fc(x)
         return x
 
-        
+
     def user_encoder(self, x):
 
         x = self.attn_pool_news(x).reshape(-1, 64)
@@ -113,7 +113,7 @@ class NRMS(nn.Module):
 
         bz = label.size(0)
         news_vecs = self.news_encoder(news_feature).reshape(bz, -1, 64)
-        
+
         user_newsvecs = self.news_encoder(user_feature).reshape(bz, -1, 64)
         user_vec = self.user_encoder(user_newsvecs).unsqueeze(-1) # batch * 400 * 1
         score = torch.bmm(news_vecs, user_vec).squeeze(-1)
@@ -131,8 +131,8 @@ class EBNR(nn.Module):
         vocab_size, embedding_dim = embedding_matrix.shape
         self.embed = nn.Embedding(vocab_size, embedding_dim, padding_idx=0)
         self.embed.weight = nn.Parameter(torch.from_numpy(embedding_matrix).type(torch.FloatTensor), requires_grad=True)
-        
-        
+
+
         self.gru_word = nn.GRU(300, 400, batch_first=True)
         self.gru_news = nn.GRU(64, 64, batch_first=True)
 
@@ -142,7 +142,7 @@ class EBNR(nn.Module):
         self.drop_layer = nn.Dropout(p=0.2)
         self.fc = nn.Linear(400, 64)
         self.criterion = nn.CrossEntropyLoss()
-        
+
     def news_encoder(self, news_feature):
         x = news_feature[0]
         news_len = x.shape[-1]
@@ -153,7 +153,7 @@ class EBNR(nn.Module):
         x = self.fc(x)
         return x
 
-        
+
     def user_encoder(self, x):
 
         x = self.gru_news(x)[0]
@@ -164,7 +164,7 @@ class EBNR(nn.Module):
 
         bz = label.size(0)
         news_vecs = self.news_encoder(news_feature).reshape(bz, -1, 64)
-        
+
         user_newsvecs = self.news_encoder(user_feature).reshape(bz, -1, 64)
         user_vec = self.user_encoder(user_newsvecs).unsqueeze(-1) # batch * 400 * 1
         score = torch.bmm(news_vecs, user_vec).squeeze(-1)

@@ -1,7 +1,7 @@
 
 {
     "model": {
-        "hidden_dim": 64, 
+        "hidden_dim": 64,
         "num_layers_enc": 1,
         "num_layers_dec": 1,
         "user_size": 64,
